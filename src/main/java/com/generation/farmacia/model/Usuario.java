@@ -16,42 +16,31 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
-
-
 @Entity
-@Table (name = "tb_usuario")
+@Table(name = "tb_usuarios")
 public class Usuario {
 
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @NotBlank (message = "O Nome é obrigatório.")
-    private String nome;
+	@NotNull(message = "O atributo Nome é Obrigatório!")
+	private String nome;
 
-    @Email (message = "Para realizar login, o email precisa ser válido.")
-    private String usuario;
+	@NotNull(message = "O atributo Usuário é Obrigatório!")
+	@Email(message = "O atributo Usuário deve ser um email válido!")
+	private String usuario;
 
-    @NotBlank (message = "A Senha deve ter no mínimo 8 caracteres")
-    @Size (min = 8)
-    private String senha;
+	@NotBlank(message = "O atributo Senha é Obrigatório!")
+	@Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
+	private String senha;
 
-    @Size (max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
-    private String foto;
+	private String foto;
 
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    @OneToMany (mappedBy = "usuario", cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties ("usuario")
-    private List<Produto> produtos;
-
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("usuario")
+	private List<Produto> produto;
+	
 	public Long getId() {
 		return id;
 	}
@@ -66,6 +55,14 @@ public class Usuario {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getSenha() {
@@ -84,12 +81,13 @@ public class Usuario {
 		this.foto = foto;
 	}
 
-	public List<Produto> getProdutos() {
-		return produtos;
+
+	public List<Produto> getProduto() {
+		return this.produto;
 	}
 
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
+	public void setProduto(List<Produto> produto) {
+		this.produto = produto;
 	}
 
 }

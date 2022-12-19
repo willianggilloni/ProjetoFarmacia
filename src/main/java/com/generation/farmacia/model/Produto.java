@@ -10,103 +10,114 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
-
 @Entity
-@Table(name = "tb_produto")
+@Table(name = "tb_produtos")
 public class Produto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@NotBlank(message="Nome é obrigatório!")
+	private String nome;
+	
+	@NotBlank(message="Descrição é obrigatório!")
+	private String descricao;
 
-    @NotBlank(message = "Nome do produto é obrigatório")
-    private String nome;
+	private int quantidade;
 
-    @NotBlank(message = "Descricao é obrigatória")
-    private String descricao;
+	private String laboratorio;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
+	@NotNull(message="Preço é obrigatório!")
+	@Positive(message = "Digite um valor maior do que zero")
+	private BigDecimal preco;
+	
+	private String foto;
 
-    @NotNull(message = "Preço é obrigatório")
-    private BigDecimal preco;
-
-    @NotNull(message = "Deve ser verdadeiro ou falso")
-    private Boolean ativo;
-
-    @NotNull(message = "Deve conter um valor de produto")
-    private Integer quantidade;
+	@ManyToOne
+	@JsonIgnoreProperties("produto")
+	private Categoria categoria;
 
     @ManyToOne
-    @JsonIgnoreProperties("produto")
-    private Categoria categoria;
+	@JsonIgnoreProperties("produto")
+	private Usuario usuario;
 
-    @ManyToOne
-    @JsonIgnoreProperties("produto")
-    private Usuario usuario;
+	public Long getId() {
+		return id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public String getDescricao() {
+		return descricao;
+	}
 
-    public String getDescricao() {
-        return descricao;
-    }
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+	public String getLaboratorio() {
+		return laboratorio;
+	}
 
-    public BigDecimal getPreco() {
-        return preco;
-    }
+	public void setLaboratorio(String laboratorio) {
+		this.laboratorio = laboratorio;
+	}
 
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
-    }
+	public int getQuantidade() {
+		return this.quantidade;
+	}
 
-    public Boolean getAtivo() {
-        return ativo;
-    }
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
+	}
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
-    }
+	public BigDecimal getPreco() {
+		return preco;
+	}
 
-    public Integer getQuantidade() {
-        return quantidade;
-    }
+	public void setPreco(BigDecimal preco) {
+		this.preco = preco;
+	}
+
+	public String getFoto() {
+		return this.foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
 
     public Usuario getUsuario() {
-        return usuario;
+        return this.usuario;
     }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
+    
 }
